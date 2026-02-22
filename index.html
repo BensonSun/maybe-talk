@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>也許妳想找人聊一聊 | Maybe She'd Like to Talk</title>
+  <meta name="description" content="為孕期媽咪設計的心靈陪伴平台。40週 Inner Engineering 冥想練習 + 1:1 預約聊聊。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Bold Headspace/Buck-inspired palette */
+      --coral: #F28B6E;
+      --coral-light: #FFB59A;
+      --coral-soft: #FFF0EB;
+      --navy: #1E2A5E;
+      --navy-light: #2B4570;
+      --teal: #5BBFB5;
+      --teal-light: #B8E8E0;
+      --teal-soft: #E8F8F5;
+      --yellow: #FFB627;
+      --yellow-light: #FFD470;
+      --yellow-soft: #FFF7E0;
+      --pink: #F28BAE;
+      --pink-light: #FFCCD5;
+      --pink-soft: #FFF0F3;
+      --cream: #FFF5F0;
+      --warm-dark: #1E2A3A;
+      --warm-mid: #5A6577;
+      --warm-light: #94A0B0;
+      --white: #FFFFFF;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+      --radius-xl: 48px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', 'Quicksand', -apple-system, sans-serif;
+      color: var(--warm-dark);
+      background: var(--cream);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== LANG TOGGLE ===== */
+    .lang-toggle {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      gap: 4px;
+      background: var(--white);
+      border-radius: 40px;
+      padding: 4px;
+      box-shadow: 0 2px 20px rgba(61,43,51,0.08);
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      padding: 8px 16px;
+      border-radius: 36px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--warm-light);
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .lang-btn.active {
+      background: var(--coral);
+      color: var(--white);
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,250,245,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled {
+      box-shadow: 0 2px 30px rgba(61,43,51,0.06);
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--coral);
+      letter-spacing: -0.02em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--warm-mid);
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--coral);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--pink-light) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--coral-soft) 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    .hero-content {
+      max-width: 800px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--pink-light);
+      color: var(--coral);
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: var(--warm-dark);
+    }
+    .hero h1 .accent {
+      color: var(--coral);
+    }
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--warm-mid);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .hero-illustration {
+      margin: 48px auto 0;
+      max-width: 360px;
+    }
+    .hero-illustration svg {
+      width: 100%;
+      height: auto;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--coral);
+      color: var(--white);
+      border: none;
+      padding: 16px 36px;
+      border-radius: 60px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      box-shadow: 0 4px 20px rgba(242,139,110,0.35);
+    }
+    .btn-primary:hover {
+      background: #E07A5F;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(242,139,110,0.45);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      color: var(--coral);
+      border: 2px solid var(--coral);
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    .btn-secondary:hover {
+      background: var(--pink-soft);
+      border-color: #E07A5F;
+    }
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      padding: 100px 40px;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 64px;
+    }
+    .section-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--coral);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .section-header h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .section-header p {
+      font-size: 17px;
+      color: var(--warm-mid);
+      line-height: 1.8;
+    }
+
+    /* ===== ABOUT ===== */
+    .about {
+      background: var(--white);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .about-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .about-card:hover {
+      transform: translateY(-4px);
+    }
+    .about-card .icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: var(--pink-soft);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-card .icon svg {
+      width: 40px;
+      height: 40px;
+    }
+    .about-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .about-card p {
+      font-size: 15px;
+      color: var(--warm-mid);
+      line-height: 1.7;
+    }
+
+    /* ===== JOURNEY ===== */
+    .journey {
+      background: var(--pink-soft);
+    }
+    .journey-timeline {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      gap: 24px;
+    }
+    .journey-phase {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: start;
+      transition: transform 0.3s ease;
+    }
+    .journey-phase:hover {
+      transform: translateY(-2px);
+    }
+    .phase-badge {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .phase-1 .phase-badge { background: var(--coral); }
+    .phase-2 .phase-badge { background: var(--teal); }
+    .phase-3 .phase-badge { background: var(--navy); }
+    .phase-content h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .phase-content .weeks {
+      font-size: 14px;
+      color: var(--coral);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .phase-content p {
+      font-size: 15px;
+      color: var(--warm-mid);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .phase-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .phase-tag {
+      background: var(--coral-soft);
+      color: var(--navy);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* ===== BOOKING ===== */
+    .booking {
+      background: var(--white);
+      text-align: center;
+    }
+    .booking-card {
+      max-width: 720px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, var(--pink-soft) 0%, var(--coral-soft) 100%);
+      border-radius: var(--radius-xl);
+      padding: 60px 48px;
+    }
+    .booking-card h3 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .booking-card p {
+      font-size: 16px;
+      color: var(--warm-mid);
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+    .booking-features {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .booking-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--warm-mid);
+    }
+    .booking-feature .check {
+      width: 24px;
+      height: 24px;
+      background: var(--coral-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .booking-feature .check svg {
+      width: 14px;
+      height: 14px;
+    }
+    .free-badge {
+      display: inline-block;
+      background: var(--coral-light);
+      color: var(--white);
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--warm-dark);
+      color: rgba(255,255,255,0.7);
+      padding: 60px 40px 40px;
+      text-align: center;
+    }
+    footer .footer-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--coral);
+      margin-bottom: 16px;
+    }
+    footer p {
+      font-size: 14px;
+      line-height: 1.8;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    footer .footer-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+    footer .footer-links a:hover {
+      color: var(--coral);
+    }
+    footer .copyright {
+      font-size: 13px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ===== FLOATING ELEMENTS ===== */
+    .float-element {
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .float-delay-1 { animation-delay: 0s; }
+    .float-delay-2 { animation-delay: 2s; }
+    .float-delay-3 { animation-delay: 4s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      section { padding: 60px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .journey-phase {
+        grid-template-columns: 1fr;
+        padding: 28px;
+      }
+      .booking-card { padding: 36px 24px; }
+      .booking-features { gap: 16px; }
+      .lang-toggle { top: 16px; right: 16px; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Language Toggle -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('zh')" data-lang="zh">中文</button>
+    <button class="lang-btn" onclick="setLang('en')" data-lang="en">EN</button>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <span data-zh="也許妳想找人聊一聊" data-en="Maybe She'd Like to Talk" class="i18n">也許妳想找人聊一聊</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about" data-zh="關於我們" data-en="About" class="i18n">關於我們</a></li>
+      <li><a href="#journey" data-zh="40 週旅程" data-en="40-Week Journey" class="i18n">40 週旅程</a></li>
+      <li><a href="#booking" data-zh="預約聊聊" data-en="Book a Session" class="i18n">預約聊聊</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>🤰</span>
+        <span data-zh="為孕期的妳而設計" data-en="Designed for expecting mothers" class="i18n">為孕期的妳而設計</span>
+      </div>
+      <h1>
+        <span data-zh="也許妳想" data-en="Maybe She'd" class="i18n">也許妳想</span><br>
+        <span class="accent" data-zh="找人聊一聊" data-en="Like to Talk" class="i18n">找人聊一聊</span>
+      </h1>
+      <p data-zh="懷孕的路上，妳不需要獨自面對。這裡有 40 週的陪伴指南、呼吸冥想練習，還有真正懂妳的人，陪妳聊 45 分鐘。" data-en="You don't have to walk this journey alone. 40 weeks of guided support, breathing & meditation practices, and someone who truly understands — ready to talk for 45 minutes." class="i18n">懷孕的路上，妳不需要獨自面對。這裡有 40 週的陪伴指南、呼吸冥想練習，還有真正懂妳的人，陪妳聊 45 分鐘。</p>
+      <div class="btn-group">
+        <a href="#journey" class="btn-primary" data-zh="開始 40 週旅程" data-en="Start Your Journey" class="i18n">開始 40 週旅程</a>
+        <a href="#booking" class="btn-secondary" data-zh="預約第一次聊聊（免費）" data-en="Book First Session (Free)" class="i18n">預約第一次聊聊（免費）</a>
+      </div>
+
+      <!-- Hero Illustration: Bold geometric pregnant figure (Buck/Headspace style) -->
+      <div class="hero-illustration">
+        <svg viewBox="0 0 360 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Yellow sun/glow circle behind -->
+          <circle cx="180" cy="140" r="90" fill="#FFB627"/>
+          <!-- Body: coral blob shape -->
+          <ellipse cx="180" cy="190" rx="55" ry="80" fill="#F28B6E"/>
+          <!-- Head: coral rounded -->
+          <ellipse cx="180" cy="115" rx="38" ry="42" fill="#F28B6E"/>
+          <!-- Navy cushion underneath -->
+          <ellipse cx="180" cy="270" rx="80" ry="24" fill="#1E2A5E"/>
+          <!-- Face: minimal dots -->
+          <circle cx="170" cy="112" r="3" fill="#1E2A5E"/>
+          <circle cx="190" cy="112" r="3" fill="#1E2A5E"/>
+          <path d="M174 122 C176 126, 184 126, 186 122" stroke="#1E2A5E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <!-- Hands together -->
+          <ellipse cx="180" cy="195" rx="12" ry="8" fill="#E07A5F"/>
+          <!-- Floating elements -->
+          <g class="float-element float-delay-1">
+            <circle cx="90" cy="100" r="8" fill="#5BBFB5"/>
+          </g>
+          <g class="float-element float-delay-2">
+            <circle cx="275" cy="90" r="6" fill="#F28BAE"/>
+          </g>
+          <g class="float-element float-delay-3">
+            <circle cx="280" cy="180" r="10" fill="#FFD470"/>
+          </g>
+          <g class="float-element float-delay-1">
+            <circle cx="85" cy="200" r="5" fill="#FFB627"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="section-header fade-in">
+      <div class="section-label" data-zh="我們提供什麼" data-en="What We Offer" class="i18n">我們提供什麼</div>
+      <h2 data-zh="在這裡，妳可以安心做自己" data-en="A Safe Space to Be Yourself" class="i18n">在這裡，妳可以安心做自己</h2>
+      <p data-zh="不是醫生的診間，不是親友的安慰，是一個真正理解孕期情緒的人，陪妳走過這段路。" data-en="Not a doctor's office, not well-meaning advice from family — just someone who truly understands what you're going through." class="i18n">不是醫生的診間，不是親友的安慰，是一個真正理解孕期情緒的人，陪妳走過這段路。</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-card fade-in">
+        <div class="icon">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 8 C20 8, 10 4, 8 14 C6 22, 14 28, 20 34 C26 28, 34 22, 32 14 C30 4, 20 8, 20 8Z" fill="#F28B6E"/>
+          </svg>
+        </div>
+        <h3 data-zh="40 週情緒陪伴" data-en="40-Week Emotional Guide" class="i18n">40 週情緒陪伴</h3>
+        <p data-zh="每一週，告訴妳身體和心裡正在發生什麼事。妳的感受都是正常的。" data-en="Each week, we'll help you understand what's happening in your body and mind. Everything you feel is valid." class="i18n">每一週，告訴妳身體和心裡正在發生什麼事。妳的感受都是正常的。</p>
+      </div>
+
+      <div class="about-card fade-in">
+        <div class="icon">
+          <svg viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="14" stroke="#5BBFB5" stroke-width="3" fill="none"/>
+            <path d="M20 10 L20 20 L26 24" stroke="#5BBFB5" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 data-zh="呼吸 · 冥想 · 睡眠" data-en="Breathe · Meditate · Sleep" class="i18n">呼吸 · 冥想 · 睡眠</h3>
+        <p data-zh="每週針對性的練習，幫助妳放鬆身體、安定情緒、好好睡一覺。中英文語音引導。" data-en="Weekly targeted practices to help you relax, find calm, and sleep better. Available in Chinese and English." class="i18n">每週針對性的練習，幫助妳放鬆身體、安定情緒、好好睡一覺。中英文語音引導。</p>
+      </div>
+
+      <div class="about-card fade-in">
+        <div class="icon">
+          <svg viewBox="0 0 40 40" fill="none">
+            <rect x="6" y="12" width="12" height="16" rx="6" fill="#F28B6E"/>
+            <rect x="22" y="12" width="12" height="16" rx="6" fill="#5BBFB5"/>
+            <path d="M18 20 L22 20" stroke="#FFB627" stroke-width="2"/>
+            <circle cx="12" cy="18" r="1.5" fill="white"/>
+            <circle cx="28" cy="18" r="1.5" fill="white"/>
+            <path d="M10 22 C10 22, 12 24, 14 22" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M26 22 C26 22, 28 24, 30 22" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 data-zh="1:1 預約聊聊" data-en="1:1 Talk Sessions" class="i18n">1:1 預約聊聊</h3>
+        <p data-zh="45 分鐘，和經歷過孕期或具備心理諮詢專業的人，好好聊一聊。第一次免費。" data-en="45 minutes with someone who's been through pregnancy or has professional counseling experience. First session free." class="i18n">45 分鐘，和經歷過孕期或具備心理諮詢專業的人，好好聊一聊。第一次免費。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 40-Week Journey -->
+  <section class="journey" id="journey">
+    <div class="section-header fade-in">
+      <div class="section-label" data-zh="Inner Engineering" data-en="Inner Engineering" class="i18n">Inner Engineering</div>
+      <h2 data-zh="40 週，一趟向內的旅程" data-en="40 Weeks, a Journey Inward" class="i18n">40 週，一趟向內的旅程</h2>
+      <p data-zh="每一週，我們都會陪妳認識當下的自己。妳不需要完美，只需要被理解。" data-en="Each week, we help you understand who you are right now. You don't need to be perfect — you just need to be heard." class="i18n">每一週，我們都會陪妳認識當下的自己。妳不需要完美，只需要被理解。</p>
+    </div>
+
+    <div class="journey-timeline">
+      <div class="journey-phase phase-1 fade-in">
+        <div class="phase-badge">🌱</div>
+        <div class="phase-content">
+          <div class="weeks" data-zh="第 1–12 週" data-en="Weeks 1–12" class="i18n">第 1–12 週</div>
+          <h3 data-zh="播種期：與自己和解" data-en="Seed Phase: Making Peace with Yourself" class="i18n">播種期：與自己和解</h3>
+          <p data-zh="不確定、害怕、期待交織的時期。我們幫妳認識初期的身心變化，學會對焦慮溫柔以待。" data-en="A time of uncertainty, fear, and anticipation intertwined. We help you navigate early changes and learn to be gentle with your anxiety." class="i18n">不確定、害怕、期待交織的時期。我們幫妳認識初期的身心變化，學會對焦慮溫柔以待。</p>
+          <div class="phase-tags">
+            <span class="phase-tag" data-zh="舒緩孕吐呼吸法" data-en="Morning Sickness Breathing" class="i18n">舒緩孕吐呼吸法</span>
+            <span class="phase-tag" data-zh="焦慮安定冥想" data-en="Anxiety Calm Meditation" class="i18n">焦慮安定冥想</span>
+            <span class="phase-tag" data-zh="秘密期的情緒日記" data-en="Secret Phase Journaling" class="i18n">秘密期的情緒日記</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-phase phase-2 fade-in">
+        <div class="phase-badge">🌸</div>
+        <div class="phase-content">
+          <div class="weeks" data-zh="第 13–27 週" data-en="Weeks 13–27" class="i18n">第 13–27 週</div>
+          <h3 data-zh="綻放期：感受新生命" data-en="Bloom Phase: Feeling New Life" class="i18n">綻放期：感受新生命</h3>
+          <p data-zh="身體明顯變化，第一次感受到胎動。我們陪妳重新認識自己的身體，與寶寶建立連結。" data-en="Your body is visibly changing, and you feel your baby move for the first time. We help you reconnect with your body and bond with your little one." class="i18n">身體明顯變化，第一次感受到胎動。我們陪妳重新認識自己的身體，與寶寶建立連結。</p>
+          <div class="phase-tags">
+            <span class="phase-tag" data-zh="身體接納冥想" data-en="Body Acceptance Meditation" class="i18n">身體接納冥想</span>
+            <span class="phase-tag" data-zh="寶寶連結呼吸" data-en="Baby Bonding Breathwork" class="i18n">寶寶連結呼吸</span>
+            <span class="phase-tag" data-zh="伴侶溝通練習" data-en="Partner Communication" class="i18n">伴侶溝通練習</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-phase phase-3 fade-in">
+        <div class="phase-badge">🌙</div>
+        <div class="phase-content">
+          <div class="weeks" data-zh="第 28–40 週" data-en="Weeks 28–40" class="i18n">第 28–40 週</div>
+          <h3 data-zh="豐收期：準備迎接" data-en="Harvest Phase: Ready to Welcome" class="i18n">豐收期：準備迎接</h3>
+          <p data-zh="倒數的緊張與期待。我們幫妳為生產做心理準備，練習放鬆，帶著安定的心迎接寶寶。" data-en="The countdown brings both excitement and nerves. We prepare your mind for birth, practice relaxation, and help you welcome your baby with calm confidence." class="i18n">倒數的緊張與期待。我們幫妳為生產做心理準備，練習放鬆，帶著安定的心迎接寶寶。</p>
+          <div class="phase-tags">
+            <span class="phase-tag" data-zh="助眠深度放鬆" data-en="Deep Sleep Relaxation" class="i18n">助眠深度放鬆</span>
+            <span class="phase-tag" data-zh="生產準備冥想" data-en="Birth Preparation Meditation" class="i18n">生產準備冥想</span>
+            <span class="phase-tag" data-zh="給寶寶的第一封信" data-en="First Letter to Baby" class="i18n">給寶寶的第一封信</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking -->
+  <section class="booking" id="booking">
+    <div class="section-header fade-in">
+      <div class="section-label" data-zh="預約聊聊" data-en="Book a Session" class="i18n">預約聊聊</div>
+      <h2 data-zh="妳值得被好好聆聽" data-en="You Deserve to Be Heard" class="i18n">妳值得被好好聆聽</h2>
+    </div>
+
+    <div class="booking-card fade-in">
+      <div class="free-badge" data-zh="第一次免費" data-en="First Session Free" class="i18n">第一次免費</div>
+      <h3 data-zh="45 分鐘 · 線上 · 一對一" data-en="45 Minutes · Online · One-on-One" class="i18n">45 分鐘 · 線上 · 一對一</h3>
+      <p data-zh="選一個妳方便的時間，我們會寄一封含有 Google Meet 連結的確認信給妳。不需要準備什麼，只要帶著妳自己來就好。" data-en="Pick a time that works for you, and we'll send a confirmation email with a Google Meet link. No preparation needed — just bring yourself." class="i18n">選一個妳方便的時間，我們會寄一封含有 Google Meet 連結的確認信給妳。不需要準備什麼，只要帶著妳自己來就好。</p>
+
+      <div class="booking-features">
+        <div class="booking-feature">
+          <div class="check">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M3 7 L6 10 L11 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span data-zh="Google Meet 視訊" data-en="Google Meet" class="i18n">Google Meet 視訊</span>
+        </div>
+        <div class="booking-feature">
+          <div class="check">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M3 7 L6 10 L11 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span data-zh="中文 / 英文" data-en="Chinese / English" class="i18n">中文 / 英文</span>
+        </div>
+        <div class="booking-feature">
+          <div class="check">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M3 7 L6 10 L11 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span data-zh="完全保密" data-en="Fully Confidential" class="i18n">完全保密</span>
+        </div>
+      </div>
+
+      <p style="margin-top: 16px; font-size: 13px; color: var(--warm-light);" data-zh="預約後，確認信會在 24 小時內寄到妳的信箱" data-en="After booking, you'll receive a confirmation email within 24 hours" class="i18n">預約後，確認信會在 24 小時內寄到妳的信箱</p>
+    </div>
+
+    <!-- Cal.com Inline Booking Widget -->
+    <div class="cal-embed-wrapper fade-in" style="max-width: 900px; margin: 48px auto 0; min-height: 500px; background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 4px 30px rgba(0,0,0,0.06);">
+      <div id="my-cal-inline" style="width:100%; height:100%; overflow:scroll"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo" data-zh="也許妳想找人聊一聊" data-en="Maybe She'd Like to Talk" class="i18n">也許妳想找人聊一聊</div>
+    <p data-zh="每一位媽媽都值得被好好照顧。不只是身體，還有心。" data-en="Every mother deserves to be cared for. Not just her body, but her heart." class="i18n">每一位媽媽都值得被好好照顧。不只是身體，還有心。</p>
+    <div class="footer-links">
+      <a href="#about" data-zh="關於我們" data-en="About" class="i18n">關於我們</a>
+      <a href="#journey" data-zh="40 週旅程" data-en="Journey" class="i18n">40 週旅程</a>
+      <a href="#booking" data-zh="預約聊聊" data-en="Book" class="i18n">預約聊聊</a>
+      <a href="mailto:hello@maybeshedliketotalk.com" data-zh="聯絡我們" data-en="Contact" class="i18n">聯絡我們</a>
+    </div>
+    <div class="copyright">© 2026 Maybe She'd Like to Talk. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Language switching
+    let currentLang = 'zh';
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      document.querySelectorAll('.i18n').forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) el.textContent = text;
+      });
+      document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : 'en';
+    }
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Nav scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+
+  <!-- Cal.com Embed Script -->
+  <!--
+    ==========================================
+    Annie 設定步驟：
+    1. 到 https://cal.com 免費註冊帳號
+    2. 建立一個 45 分鐘的 Event Type（例如 "聊聊 / Talk Session"）
+    3. 在 Event Type 設定裡連結你的 Zoom 帳號（Integrations > Zoom）
+    4. 把下面的 calLink 改成你的：例如 "annie/talk-session"
+    5. 第一次免費可以用 Cal.com 的 "Payment" 功能（設價格為 0）或不設
+    ==========================================
+  -->
+  <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal;
+        let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          typeof namespace === "string"
+            ? (cal.ns[namespace] = api) && p(api, ar)
+            : p(cal, ar);
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    Cal("init", { origin: "https://cal.com" });
+
+    // TODO: 把 "YOUR_USERNAME/YOUR_EVENT" 改成你的 Cal.com 連結
+    Cal("inline", {
+      elementOrSelector: "#my-cal-inline",
+      calLink: "mugo-28yktd/maybe-she-d-like-to-talk",
+      layout: "month_view"
+    });
+
+    Cal("ui", {
+      styles: { branding: { brandColor: "#F28B6E" } },
+      hideEventTypeDetails: false,
+      layout: "month_view"
+    });
+  </script>
+
+</body>
+</html>
